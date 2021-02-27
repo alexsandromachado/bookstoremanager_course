@@ -10,9 +10,5 @@ public enum Gender {
     MALE("Male"),
     FEMALE("Female");
 
-    Gender(String string) {
-		// TODO Auto-generated constructor stub
-	}
-
 	private String description;
 }
