@@ -12,6 +12,7 @@ import javax.persistence.ManyToOne;
 import org.hibernate.annotations.ManyToAny;
 
 import com.alex.bookstoremanager.author.entity.Author;
+import com.alex.bookstoremanager.entity.Auditable;
 import com.alex.bookstoremanager.publishers.entity.Publisher;
 import com.alex.bookstoremanager.users.entity.User;
 
@@ -19,7 +20,7 @@ import lombok.Data;
 
 @Data
 @Entity
-public class Book {
+public class Book extends Auditable{
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
