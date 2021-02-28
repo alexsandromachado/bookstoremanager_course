@@ -17,8 +17,6 @@ import com.alex.bookstoremanager.books.entity.Book;
 import com.alex.bookstoremanager.entity.Auditable;
 import com.alex.bookstoremanager.users.enums.Gender;
 
-import net.bytebuddy.dynamic.loading.ClassReloadingStrategy.Strategy;
-
 @Entity
 public class User extends Auditable{
 	@Id

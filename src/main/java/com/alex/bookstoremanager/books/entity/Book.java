@@ -6,10 +6,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
-
-import org.hibernate.annotations.ManyToAny;
 
 import com.alex.bookstoremanager.author.entity.Author;
 import com.alex.bookstoremanager.entity.Auditable;
