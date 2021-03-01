@@ -1,17 +1,15 @@
 package com.alex.bookstoremanager.entity;
 
-import java.time.LocalDateTime;
-
-import javax.persistence.Column;
-import javax.persistence.EntityListeners;
-import javax.persistence.MappedSuperclass;
-
+import lombok.Getter;
+import lombok.Setter;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
-import lombok.Getter;
-import lombok.Setter;
+import javax.persistence.Column;
+import javax.persistence.EntityListeners;
+import javax.persistence.MappedSuperclass;
+import java.time.LocalDateTime;
 
 @Getter
 @Setter
@@ -19,12 +17,11 @@ import lombok.Setter;
 @EntityListeners(AuditingEntityListener.class)
 public abstract class Auditable {
 
-	@CreatedDate
-	@Column(nullable = false)
-	protected LocalDateTime createdDate;
-	
-	@Column
-	@LastModifiedDate
-	protected LocalDateTime lastModifiedDate;
-	
+    @CreatedDate
+    @Column
+    protected LocalDateTime createdDate;
+
+    @LastModifiedDate
+    @Column
+    protected LocalDateTime lastModifiedDate;
 }
