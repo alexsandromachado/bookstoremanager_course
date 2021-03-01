@@ -6,7 +6,7 @@ import org.mapstruct.factory.Mappers;
 import com.alex.bookstoremanager.author.dto.AuthorDTO;
 import com.alex.bookstoremanager.author.entity.Author;
 
-@Mapper
+@Mapper(componentModel="spring")
 public interface AuthorMapper {
 
     AuthorMapper INSTANCE = Mappers.getMapper(AuthorMapper.class);
