@@ -11,6 +11,7 @@ import com.alex.bookstoremanager.author.exception.AuthorAlreadyExistsException;
 import com.alex.bookstoremanager.publishers.dto.PublisherDTO;
 import com.alex.bookstoremanager.publishers.entity.Publisher;
 import com.alex.bookstoremanager.publishers.exception.PublisherAlreadyExistsException;
+import com.alex.bookstoremanager.publishers.exception.PublisherNotFoundException;
 import com.alex.bookstoremanager.publishers.mapper.PublisherMapper;
 import com.alex.bookstoremanager.publishers.repository.PublisherRepository;
 
@@ -33,6 +34,12 @@ public class PublisherService {
     	return publishermapper.toDTO(createdPublisher);
     	
     }
+    
+    public PublisherDTO findById(Long id) {
+    	return publisherRepository.findById(id)
+    			.map(publishermapper::toDTO)
+    			.orElseThrow(() -> new PublisherNotFoundException(id));  
+    }
 
 	private void verifyIfExists(String name, String code) {
 		Optional<Publisher> duplicatedPublisher = publisherRepository.findByNameOrCode(name, code);
@@ -40,6 +47,6 @@ public class PublisherService {
     		throw new PublisherAlreadyExistsException(name, code);
     	}
 	}
-
 	
+		
 }
