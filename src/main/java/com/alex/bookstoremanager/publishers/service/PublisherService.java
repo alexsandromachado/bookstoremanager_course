@@ -1,8 +1,16 @@
 package com.alex.bookstoremanager.publishers.service;
 
+import java.util.Optional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.alex.bookstoremanager.author.dto.AuthorDTO;
+import com.alex.bookstoremanager.author.entity.Author;
+import com.alex.bookstoremanager.author.exception.AuthorAlreadyExistsException;
+import com.alex.bookstoremanager.publishers.dto.PublisherDTO;
+import com.alex.bookstoremanager.publishers.entity.Publisher;
+import com.alex.bookstoremanager.publishers.exception.PublisherAlreadyExistsException;
 import com.alex.bookstoremanager.publishers.mapper.PublisherMapper;
 import com.alex.bookstoremanager.publishers.repository.PublisherRepository;
 
@@ -18,5 +26,20 @@ public class PublisherService {
 		this.publisherRepository = publisherRepository;
 	}
 	
+    public PublisherDTO create(PublisherDTO publisherDTO) {
+    	verifyIfExists(publisherDTO.getName(), publisherDTO.getCode());
+    	Publisher publisherToCreate = publishermapper.toModel(publisherDTO);
+    	Publisher createdPublisher = publisherRepository.save(publisherToCreate);
+    	return publishermapper.toDTO(createdPublisher);
+    	
+    }
+
+	private void verifyIfExists(String name, String code) {
+		Optional<Publisher> duplicatedPublisher = publisherRepository.findByNameOrCode(name, code);
+    	if (duplicatedPublisher.isPresent()) {
+    		throw new PublisherAlreadyExistsException(name, code);
+    	}
+	}
+
 	
 }
