@@ -6,6 +6,7 @@ import org.springframework.stereotype.Service;
 import com.alex.bookstoremanager.author.dto.AuthorDTO;
 import com.alex.bookstoremanager.author.entity.Author;
 import com.alex.bookstoremanager.author.exception.AuthorAlreadyExistsException;
+import com.alex.bookstoremanager.author.exception.AuthorNotFoudException;
 import com.alex.bookstoremanager.author.mapper.AuthorMapper;
 import com.alex.bookstoremanager.author.repository.AuthorRepository;
 
@@ -29,6 +30,13 @@ public class AuthorService {
     	
     }
 
+    public AuthorDTO findById(Long id) {
+    	Author foundAuthor = authorRepository.findById(id)
+    	.orElseThrow(()  -> new AuthorNotFoudException(id));
+    	return authorMapper.toDTO(foundAuthor);
+    	
+    }
+    
 	private void verifyIfExists(String authorName) {
 		authorRepository.findByName(authorName)
     	.ifPresent(author -> {throw new AuthorAlreadyExistsException(authorName); });
