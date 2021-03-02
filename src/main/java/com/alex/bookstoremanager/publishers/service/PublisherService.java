@@ -1,6 +1,9 @@
 package com.alex.bookstoremanager.publishers.service;
 
+import java.util.Collections;
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -48,5 +51,10 @@ public class PublisherService {
     	}
 	}
 	
-		
+	public List<PublisherDTO> findAll(){
+		return publisherRepository.findAll()
+		.stream()
+		.map(publishermapper::toDTO)
+		.collect(Collectors.toList());		
+	}
 }

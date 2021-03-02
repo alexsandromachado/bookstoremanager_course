@@ -1,5 +1,7 @@
 package com.alex.bookstoremanager.publishers.controller;
 
+import java.util.List;
+
 import org.springframework.web.bind.annotation.PathVariable;
 
 import com.alex.bookstoremanager.publishers.dto.PublisherDTO;
@@ -25,5 +27,11 @@ public interface PublisherControllerDocs {
 			@ApiResponse(code = 400, message = "Publisher not found error	")
 	})
 	PublisherDTO findById(Long id);
+	
+	@ApiOperation(value = "List all registred publishers")
+	@ApiResponses(value = {
+			@ApiResponse(code = 200, message = "return all registred Publishers"),
+	})
+	List<PublisherDTO> findAll();
 
 }
