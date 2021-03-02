@@ -1,5 +1,7 @@
 package com.alex.bookstoremanager.author.controller;
 
+import java.util.List;
+
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,6 +37,11 @@ public class AuthorController implements AuthorControllerDocs{
 	@GetMapping("/{id}")
 	public AuthorDTO findById(@PathVariable Long id) {
 		return authorService.findById(id);
-	}	
+	}
+	
+	@GetMapping
+	public List<AuthorDTO> findAll() {
+		return authorService.findAll();
+	}
 
 }

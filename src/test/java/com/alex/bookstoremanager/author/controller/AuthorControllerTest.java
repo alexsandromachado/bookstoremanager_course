@@ -1,5 +1,7 @@
 package com.alex.bookstoremanager.author.controller;
 
+import java.util.Collections;
+
 import org.hamcrest.core.Is;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -86,5 +88,31 @@ public class AuthorControllerTest {
 	     	                .andExpect(MockMvcResultMatchers.jsonPath("$.name", Is.is(expectedFoundAuthorDTO.getName())))
 	     	                .andExpect(MockMvcResultMatchers.jsonPath("$.age", Is.is(expectedFoundAuthorDTO.getAge())));
 	     	    }
+	   
+	   @Test
+	    void whenGETListIsCalledThenStatusOkShouldBeReturned() throws Exception {
+	        AuthorDTO expectedFoundAuthorDTO = authorDTOBuilder.buildAuthorDTO();
+
+	        Mockito.when(authorService.findAll()).thenReturn(Collections.singletonList(expectedFoundAuthorDTO));
+
+	        mockMvc.perform(MockMvcRequestBuilders.get(AUTHOR_API_URL_PATH)
+	                .contentType(MediaType.APPLICATION_JSON))
+	                .andExpect(MockMvcResultMatchers.status().isOk())
+	                .andExpect(MockMvcResultMatchers.jsonPath("$[0].id", Is.is(expectedFoundAuthorDTO.getId().intValue())))
+	                .andExpect(MockMvcResultMatchers.jsonPath("$[0].name", Is.is(expectedFoundAuthorDTO.getName())))
+	                .andExpect(MockMvcResultMatchers.jsonPath("$[0].age", Is.is(expectedFoundAuthorDTO.getAge())));
+	    }
+
+//	    @Test
+//	    void whenDELETEWithValidIdIsCalledThenNoContentShouldBeReturned() throws Exception {
+//	        AuthorDTO expectedAuthorDeletedDTO = authorDTOBuilder.buildAuthorDTO();
+//	        var expectedAuthorDeletedId = expectedAuthorDeletedDTO.getId();
+//
+//	        Mockito.doNothing().when(authorService).delete(expectedAuthorDeletedId);
+//
+//	        mockMvc.perform(MockMvcRequestBuilders.delete(AUTHOR_API_URL_PATH + "/" + expectedAuthorDeletedId)
+//	                .contentType(MediaType.APPLICATION_JSON))
+//	                .andExpect(MockMvcResultMatchers.status().isNoContent());
+//	    }
 
 	}
