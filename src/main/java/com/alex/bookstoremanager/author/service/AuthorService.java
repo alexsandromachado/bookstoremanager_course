@@ -1,5 +1,9 @@
 package com.alex.bookstoremanager.author.service;
 
+import java.util.List;
+import java.util.stream.Collector;
+import java.util.stream.Collectors;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -41,4 +45,13 @@ public class AuthorService {
 		authorRepository.findByName(authorName)
     	.ifPresent(author -> {throw new AuthorAlreadyExistsException(authorName); });
 	}
+	public List<AuthorDTO> findAll(){
+		return authorRepository.findAll()
+				.stream()
+				.map(authorMapper :: toDTO)
+				.collect(Collectors.toList());
+		
+	}
+	
+	
 }
