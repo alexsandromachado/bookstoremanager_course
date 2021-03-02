@@ -10,7 +10,7 @@ import org.springframework.stereotype.Service;
 import com.alex.bookstoremanager.author.dto.AuthorDTO;
 import com.alex.bookstoremanager.author.entity.Author;
 import com.alex.bookstoremanager.author.exception.AuthorAlreadyExistsException;
-import com.alex.bookstoremanager.author.exception.AuthorNotFoudException;
+import com.alex.bookstoremanager.author.exception.AuthorNotFoundException;
 import com.alex.bookstoremanager.author.mapper.AuthorMapper;
 import com.alex.bookstoremanager.author.repository.AuthorRepository;
 
@@ -35,8 +35,7 @@ public class AuthorService {
     }
 
     public AuthorDTO findById(Long id) {
-    	Author foundAuthor = authorRepository.findById(id)
-    	.orElseThrow(()  -> new AuthorNotFoudException(id));
+    	Author foundAuthor = verifyAndGetAuthor(id);
     	return authorMapper.toDTO(foundAuthor);
     	
     }
@@ -45,12 +44,24 @@ public class AuthorService {
 		authorRepository.findByName(authorName)
     	.ifPresent(author -> {throw new AuthorAlreadyExistsException(authorName); });
 	}
+	
 	public List<AuthorDTO> findAll(){
 		return authorRepository.findAll()
 				.stream()
 				.map(authorMapper :: toDTO)
 				.collect(Collectors.toList());
 		
+	}
+	
+	public void delete(Long id) {
+		verifyAndGetAuthor(id);
+		authorRepository.deleteById(id);
+	}
+
+	private Author verifyAndGetAuthor(Long id) {
+		Author foundAuthor = authorRepository.findById(id)
+		    	.orElseThrow(()  -> new AuthorNotFoundException(id));
+		return foundAuthor;
 	}
 	
 	

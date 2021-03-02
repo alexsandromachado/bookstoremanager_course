@@ -2,6 +2,8 @@ package com.alex.bookstoremanager.author.controller;
 
 import java.util.List;
 
+import org.springframework.web.bind.annotation.PathVariable;
+
 import com.alex.bookstoremanager.author.dto.AuthorDTO;
 
 import io.swagger.annotations.Api;
@@ -31,5 +33,12 @@ public interface AuthorControllerDocs {
             @ApiResponse(code = 200, message = "Return all registred authors"),
     })
     List<AuthorDTO> findAll();
+    
+    @ApiOperation(value = "Delete by id operation")
+    @ApiResponses(value = {
+            @ApiResponse(code = 204, message = "Success author deleted"),
+            @ApiResponse(code = 404, message = "Author not found error code")
+    })
+    void delete(Long id);
 	
 }
