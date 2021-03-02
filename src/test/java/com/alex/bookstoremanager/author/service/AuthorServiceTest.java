@@ -18,6 +18,7 @@ import com.alex.bookstoremanager.author.builder.AuthorDTOBuilder;
 import com.alex.bookstoremanager.author.dto.AuthorDTO;
 import com.alex.bookstoremanager.author.entity.Author;
 import com.alex.bookstoremanager.author.exception.AuthorAlreadyExistsException;
+import com.alex.bookstoremanager.author.exception.AuthorNotFoudException;
 import com.alex.bookstoremanager.author.mapper.AuthorMapper;
 import com.alex.bookstoremanager.author.repository.AuthorRepository;
 
@@ -68,6 +69,28 @@ public class AuthorServiceTest {
         Assertions.assertThrows(AuthorAlreadyExistsException.class, () ->
    	    authorService.create(expectedAuthorToCreateDTO));
     }
+	
+	  @Test
+	    void whenValidIdIsGivenThenAnAuthorShouldBeReturned() {
+	        AuthorDTO expectedFoundAuthorDTO = authorDTOBuilder.buildAuthorDTO();
+	        Author expectedFoundAuthor = authorMapper.toModel(expectedFoundAuthorDTO);
+
+	        Mockito.when(authorRepository.findById(expectedFoundAuthorDTO.getId())).thenReturn(Optional.of(expectedFoundAuthor));
+
+	        AuthorDTO foundAuthorDTO = authorService.findById(expectedFoundAuthorDTO.getId());
+
+	      //  Assertions.assertThat(foundAuthorDTO, Is.is(IsEqual.equalTo(expectedFoundAuthorDTO)));
+	    }
+	  
+	  @Test
+	    void whenInvalidIdIsGivenThenAnExceptionShouldBeThrown() {
+	        AuthorDTO expectedFoundAuthorDTO = authorDTOBuilder.buildAuthorDTO();
+
+	        Mockito.when(authorRepository.findById(expectedFoundAuthorDTO.getId())).thenReturn(Optional.empty());
+
+	        Assertions.assertThrows(AuthorNotFoudException.class, () -> authorService.findById(expectedFoundAuthorDTO.getId()));
+	    }
+
 
 	/*
 	 * @Test void whenExistingAuthorIsInformedThenAnExceptionShouldBeThrown() {
