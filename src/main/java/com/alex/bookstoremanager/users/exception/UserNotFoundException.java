@@ -8,6 +8,10 @@ public class UserNotFoundException extends  EntityNotFoundException {
 		super(String.format("User with id %s not exists!", id));
 	}
 	
+	public UserNotFoundException(String username) {
+	    super(String.format("User with username %s not exists!", username));
+	}
+	
 	
 
 }

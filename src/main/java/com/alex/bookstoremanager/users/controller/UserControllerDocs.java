@@ -1,7 +1,5 @@
 package com.alex.bookstoremanager.users.controller;
 
-import org.springframework.web.bind.annotation.PathVariable;
-
 import com.alex.bookstoremanager.users.dto.MessageDTO;
 import com.alex.bookstoremanager.users.dto.UserDTO;
 
@@ -27,4 +25,11 @@ public interface UserControllerDocs {
 	})
 	public void delete(Long id);
 
+	@ApiOperation(value = "User update operation")
+	@ApiResponses(value = {
+			@ApiResponse(code = 204, message = "Succes publisher deleted"),
+			@ApiResponse(code = 404, message = "Publisher not found error	")
+	})
+	MessageDTO update(Long id, UserDTO userToUpdateDTO);
+	
 }
