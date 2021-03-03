@@ -12,7 +12,6 @@ import javax.validation.constraints.Size;
 
 import com.alex.bookstoremanager.users.enums.Gender;
 import com.fasterxml.jackson.annotation.JsonFormat;
-import com.fasterxml.jackson.databind.jsonFormatVisitors.JsonFormatTypes;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -23,37 +22,37 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class UserDTO {
-	
-	private Long id;
-	
-	@NotNull
-	@NotEmpty
-	@Size(max = 255)
-	private String name;
-	
-	@NotNull
-	@Max(120)
-	private int age;
-	
+
+    private Long id;
+
+    @NotNull
+    @NotEmpty
+    @Size(max = 255)
+    private String name;
+
+    @NotNull
+    @Max(120)
+    private Integer age;
+
     @Enumerated(EnumType.STRING)
     @NotNull
     private Gender gender;
 
     @NotNull
-	@NotEmpty
-	@Email
+    @NotEmpty
+    @Email
     private String email;
 
     @NotNull
-   	@NotEmpty
+    @NotEmpty
     private String username;
 
     @NotNull
-   	@NotEmpty
+    @NotEmpty
     private String password;
 
     @NotNull
-   	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd/MM/yyyy")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd/MM/yyyy")
     private LocalDate birthDate;
 
 }
