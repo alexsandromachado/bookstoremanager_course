@@ -43,7 +43,20 @@ public class PublisherService {
     			.map(publishermapper::toDTO)
     			.orElseThrow(() -> new PublisherNotFoundException(id));  
     }
-
+	
+	public List<PublisherDTO> findAll(){
+		return publisherRepository.findAll()
+		.stream()
+		.map(publishermapper::toDTO)
+		.collect(Collectors.toList());		
+	}
+	
+	public void delete(Long id) {
+		verifyIfExists(id);
+		publisherRepository.deleteById(id); 
+		
+	}
+		
 	private void verifyIfExists(String name, String code) {
 		Optional<Publisher> duplicatedPublisher = publisherRepository.findByNameOrCode(name, code);
     	if (duplicatedPublisher.isPresent()) {
@@ -51,10 +64,8 @@ public class PublisherService {
     	}
 	}
 	
-	public List<PublisherDTO> findAll(){
-		return publisherRepository.findAll()
-		.stream()
-		.map(publishermapper::toDTO)
-		.collect(Collectors.toList());		
+	private void verifyIfExists(Long id) {
+		publisherRepository.findById(id)
+		.orElseThrow(() -> new PublisherNotFoundException(id));
 	}
 }
