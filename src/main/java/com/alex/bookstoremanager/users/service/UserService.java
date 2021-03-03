@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import com.alex.bookstoremanager.users.dto.MessageDTO;
 import com.alex.bookstoremanager.users.dto.UserDTO;
 import com.alex.bookstoremanager.users.exception.UserAlreadyExistsException;
+import com.alex.bookstoremanager.users.exception.UserNotFoundException;
 import com.alex.bookstoremanager.users.mapper.UserMapper;
 import com.alex.bookstoremanager.users.repository.UserRepository;
 
@@ -43,11 +44,22 @@ public class UserService {
 				.build();
 	}
 	
+	public void delete(Long id) {
+		verifyIfExists(id);		
+		userRepository.deleteById(id);
+		
+	}
+	
 	private void verifyIfExists(String email, String username) {
 		Optional<com.alex.bookstoremanager.users.entity.User> foundUser = userRepository.findByEmailOrUsername(email, username);
 				if(foundUser.isPresent()) {
 					throw new UserAlreadyExistsException(email, username);
 				}
+	}
+	
+	private void verifyIfExists(Long id) {
+		userRepository.findById(id)
+				.orElseThrow(() -> new UserNotFoundException(id) );
 	}
 
 }
