@@ -34,7 +34,7 @@ public interface PublisherControllerDocs {
 	})
 	List<PublisherDTO> findAll();
 	
-	@ApiOperation(value = "Delete publish by id operation")
+	@ApiOperation(value = "Delete publisher by id operation")
 	@ApiResponses(value = {
 			@ApiResponse(code = 204, message = "Succes publisher deleted"),
 			@ApiResponse(code = 404, message = "Publisher not found error	")
