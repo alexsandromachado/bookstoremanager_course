@@ -3,6 +3,7 @@ package com.alex.bookstoremanager.users.service;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.alex.bookstoremanager.users.dto.MessageDTO;
@@ -18,16 +19,18 @@ public class UserService { private final static UserMapper userMapper = UserMapp
 
 private UserRepository userRepository;
 
+private PasswordEncoder passwordEncoder;
+
 @Autowired
-public UserService(UserRepository userRepository) {
+public UserService(UserRepository userRepository, PasswordEncoder passwordEncoder) {
     this.userRepository = userRepository;
-   
+    this.passwordEncoder = passwordEncoder;
 }
 
 public MessageDTO create(UserDTO userToCreateDTO) {
     verifyIfExists(userToCreateDTO.getEmail(), userToCreateDTO.getUsername());
     com.alex.bookstoremanager.users.entity.User userToCreate = userMapper.toModel(userToCreateDTO);
-  //  userToCreate.setPassword(passwordEncoder.encode(userToCreate.getPassword()));
+    userToCreate.setPassword(passwordEncoder.encode(userToCreate.getPassword()));
 
     com.alex.bookstoremanager.users.entity.User createdUser = userRepository.save(userToCreate);
     return com.alex.bookstoremanager.users.utils.MessageDTOUtils.creationMessage(createdUser);
@@ -38,7 +41,7 @@ public MessageDTO update(Long id, UserDTO userToUpdateDTO) {
 
     userToUpdateDTO.setId(foundUser.getId());
     com.alex.bookstoremanager.users.entity.User userToUpdate = userMapper.toModel(userToUpdateDTO);
-   // userToUpdate.setPassword(passwordEncoder.encode(userToUpdate.getPassword()));
+    userToUpdate.setPassword(passwordEncoder.encode(userToUpdate.getPassword()));
     userToUpdate.setCreatedDate(foundUser.getCreatedDate());
 
     com.alex.bookstoremanager.users.entity.User updatedUser = userRepository.save(userToUpdate);
