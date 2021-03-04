@@ -2,6 +2,7 @@ package com.alex.bookstoremanager.users.dto;
 
 import java.time.LocalDate;
 
+import javax.persistence.Column;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.validation.constraints.Email;
@@ -11,6 +12,7 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 import com.alex.bookstoremanager.users.enums.Gender;
+import com.alex.bookstoremanager.users.enums.Role;
 import com.fasterxml.jackson.annotation.JsonFormat;
 
 import lombok.AllArgsConstructor;
@@ -54,5 +56,9 @@ public class UserDTO {
     @NotNull
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd/MM/yyyy")
     private LocalDate birthDate;
+    
+    @Enumerated(EnumType.STRING)
+   @NotNull
+    private Role role;
 
 }
