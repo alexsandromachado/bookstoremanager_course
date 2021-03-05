@@ -13,8 +13,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.alex.bookstoremanager.users.dto.JwtRequest;
+import com.alex.bookstoremanager.users.dto.JwtResponse;
 import com.alex.bookstoremanager.users.dto.MessageDTO;
 import com.alex.bookstoremanager.users.dto.UserDTO;
+import com.alex.bookstoremanager.users.service.AuthenticationService;
 import com.alex.bookstoremanager.users.service.UserService;
 
 @RestController
@@ -22,12 +25,16 @@ import com.alex.bookstoremanager.users.service.UserService;
 public class UserController implements UserControllerDocs {
 	
 	private UserService userService;
+	
+	private AuthenticationService authenticationService;
+	
 
 	@Autowired
-	public UserController(UserService userService) {
+	public UserController(UserService userService, AuthenticationService authenticationService) {
 		this.userService = userService;
+		this.authenticationService = authenticationService; 
 	}
-
+	
 	@PostMapping
 	@ResponseStatus(HttpStatus.CREATED)
 	public MessageDTO create(@RequestBody @Valid UserDTO userToCreateDTO) {
@@ -44,9 +51,11 @@ public class UserController implements UserControllerDocs {
 	public MessageDTO update(@PathVariable Long id, @RequestBody @Valid UserDTO userToUpdateDTO) {
 		return userService.update(id, userToUpdateDTO);
 	}
-	
-	
-	
-	
 
+	@PostMapping("/authenticate")
+	public JwtResponse createAuthenticationToken(@RequestBody @Valid JwtRequest jwtRequest) {
+		return authenticationService.createAuthenticationToken(jwtRequest);
+	}
+	
+	
 }

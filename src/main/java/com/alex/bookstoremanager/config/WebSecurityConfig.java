@@ -13,6 +13,7 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 import com.alex.bookstoremanager.users.enums.Role;
 
@@ -22,9 +23,9 @@ import lombok.AllArgsConstructor;
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(prePostEnabled = true)
 @AllArgsConstructor(onConstructor = @__(@Autowired))
-public class WebSecurityConfig extends WebSecurityConfigurerAdapter{
-	
-	private static final String USERS_API_URL = "/api/v1/users/**";
+public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
+
+    private static final String USERS_API_URL = "/api/v1/users/**";
     private static final String PUBLISHERS_API_URL = "/api/v1/publishers/**";
     private static final String AUTHORS_API_URL = "/api/v1/authors/**";
     private static final String BOOKS_API_URL = "/api/v1/books/**";
@@ -43,15 +44,15 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter{
             "/swagger-ui.html",
             "/webjars/**"
     };
-    
+
     private JwtAuthenticationEntryPoint jwtAuthenticationEntryPoint;
 
     private UserDetailsService userDetailsService;
 
     private PasswordEncoder passwordEncoder;
 
- //  private JwtRequestFilter jwtRequestFilter;
-//
+    private JwtRequestFilter jwtRequestFilter;
+
     @Autowired
     public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
         auth.userDetailsService(userDetailsService).passwordEncoder(passwordEncoder);
@@ -77,12 +78,11 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter{
 
         httpSecurity.headers().frameOptions().disable();
 
-//        httpSecurity.addFilterBefore(jwtRequestFilter, UsernamePasswordAuthenticationFilter.class);
+        httpSecurity.addFilterBefore(jwtRequestFilter, UsernamePasswordAuthenticationFilter.class);
     }
 
     @Override
     public void configure(WebSecurity web) throws Exception {
         web.ignoring().antMatchers(SWAGGER_RESOURCES);
     }
-
 }
