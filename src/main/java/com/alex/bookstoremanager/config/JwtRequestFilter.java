@@ -21,7 +21,7 @@ import com.alex.bookstoremanager.users.service.JwtTokenManager;
 @Component
 public class JwtRequestFilter extends OncePerRequestFilter{
 
-	    @Autowired
+	  @Autowired
 	    private AuthenticationService authenticationService;
 
 	    @Autowired
@@ -44,7 +44,7 @@ public class JwtRequestFilter extends OncePerRequestFilter{
 	            addUsernameInContext(request, username, jwtToken);
 	        }
 	        chain.doFilter(request, response);
-   }
+	    }
 
 	    private boolean isTokenPresent(String requestTokenHeader) {
 	        return requestTokenHeader != null && requestTokenHeader.startsWith("Bearer ");
@@ -63,5 +63,4 @@ public class JwtRequestFilter extends OncePerRequestFilter{
 	            SecurityContextHolder.getContext().setAuthentication(authenticationToken);
 	        }
 	    }
-
 }

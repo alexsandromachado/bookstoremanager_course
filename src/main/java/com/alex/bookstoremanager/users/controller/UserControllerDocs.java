@@ -1,5 +1,11 @@
 package com.alex.bookstoremanager.users.controller;
 
+import javax.validation.Valid;
+
+import org.springframework.web.bind.annotation.RequestBody;
+
+import com.alex.bookstoremanager.users.dto.JwtRequest;
+import com.alex.bookstoremanager.users.dto.JwtResponse;
 import com.alex.bookstoremanager.users.dto.MessageDTO;
 import com.alex.bookstoremanager.users.dto.UserDTO;
 
@@ -27,9 +33,16 @@ public interface UserControllerDocs {
 
 	@ApiOperation(value = "User update operation")
 	@ApiResponses(value = {
-			@ApiResponse(code = 204, message = "Succes publisher deleted"),
-			@ApiResponse(code = 404, message = "Publisher not found error	")
+			@ApiResponse(code = 204, message = "Success publisher deleted"),
+			@ApiResponse(code = 404, message = "Publisher not found error")
 	})
 	MessageDTO update(Long id, UserDTO userToUpdateDTO);
+	
+	@ApiOperation(value = "User authentication operation")
+	@ApiResponses(value = {
+			@ApiResponse(code = 204, message = "Success user authenticated"),
+			@ApiResponse(code = 404, message = "User not found")
+	})
+	JwtResponse createAuthenticationToken(JwtRequest jwtRequest);
 	
 }
