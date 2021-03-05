@@ -15,7 +15,11 @@ spring:
       enabled: false
 
 logging:
-level:
-br:
-com:
-alex: INFO
+  level:
+    br:
+      com:
+        rodrigopeleias: INFO
+
+jwt:
+  secret: bookstoremanager
+  validity: 18000
