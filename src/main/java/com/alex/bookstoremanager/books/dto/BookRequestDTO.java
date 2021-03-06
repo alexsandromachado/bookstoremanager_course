@@ -32,11 +32,11 @@ public class BookRequestDTO {
 
 	@NotNull
 	@Max(3000)
-	private int pages;
+	private Integer pages;
 
 	@NotNull
 	@Max(100)
-	private int chapters;
+	private Integer chapters;
 
     @NotNull
     private Long authorId;

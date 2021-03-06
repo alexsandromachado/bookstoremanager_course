@@ -18,9 +18,9 @@ private Long id;
 
 	private String isbn;
 
-	private int pages;
+	private Integer pages;
 
-	private int chapters;
+	private Integer chapters;
 
     private AuthorDTO author;
    
