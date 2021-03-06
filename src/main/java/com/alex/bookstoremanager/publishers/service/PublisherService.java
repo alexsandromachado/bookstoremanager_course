@@ -52,7 +52,7 @@ public class PublisherService {
 	}
 	
 	public void delete(Long id) {
-		verifyIfExists(id);
+		verifyAndGetIfExists(id);
 		publisherRepository.deleteById(id); 
 		
 	}
@@ -64,8 +64,8 @@ public class PublisherService {
     	}
 	}
 	
-	private void verifyIfExists(Long id) {
-		publisherRepository.findById(id)
+	public Publisher verifyAndGetIfExists(Long id) {
+		return publisherRepository.findById(id)
 		.orElseThrow(() -> new PublisherNotFoundException(id));
 	}
 }
