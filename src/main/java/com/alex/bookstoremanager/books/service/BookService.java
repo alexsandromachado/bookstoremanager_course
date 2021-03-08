@@ -17,6 +17,9 @@ import com.alex.bookstoremanager.publishers.service.PublisherService;
 import com.alex.bookstoremanager.users.dto.AuthenticatedUser;
 import com.alex.bookstoremanager.users.entity.User;
 import com.alex.bookstoremanager.users.service.UserService;
+import java.util.List;
+import java.util.stream.Collector;
+import java.util.stream.Collectors;
 
 import lombok.AllArgsConstructor;
 
@@ -58,6 +61,14 @@ public class BookService {
 				.map(bookMapper::toDTO)
 				.orElseThrow(() -> new BookNotFoundExeption(bookId));
 		
+	}
+	
+	public List<BookResponseDTO> findAllByUser(AuthenticatedUser authenticatedUser){
+		User foundAuthenticatedUser = userService.verifyAndGetUserIfExists(authenticatedUser.getUsername());
+		return bookRepository.findAllByUser(foundAuthenticatedUser)
+		.stream()
+		.map(bookMapper::toDTO)
+		.collect(Collectors.toList());
 	}
 
 	private void verifyIfBookIsAlreadyRegistered(User foundUser, BookRequestDTO bookRequestDTO) {
