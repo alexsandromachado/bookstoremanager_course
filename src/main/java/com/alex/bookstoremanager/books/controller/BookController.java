@@ -1,5 +1,7 @@
 package com.alex.bookstoremanager.books.controller;
 
+import java.util.List;
+
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -44,6 +46,9 @@ public BookResponseDTO findByIdAndUser(
 	return bookService.findByIdAndUser(authenticatedUser, bookId);
 }
 
-
+@GetMapping
+public List<BookResponseDTO> findAllByUser(@AuthenticationPrincipal AuthenticatedUser authenticatedUser) {
+	return bookService.findAllByUser(authenticatedUser);
+}
 
 }
