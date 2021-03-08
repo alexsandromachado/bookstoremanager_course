@@ -1,10 +1,5 @@
 package com.alex.bookstoremanager.books.controller;
 
-import javax.validation.Valid;
-
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.web.bind.annotation.RequestBody;
-
 import com.alex.bookstoremanager.books.dto.BookRequestDTO;
 import com.alex.bookstoremanager.books.dto.BookResponseDTO;
 import com.alex.bookstoremanager.users.dto.AuthenticatedUser;
@@ -23,5 +18,12 @@ public interface BookControllerDocs {
 			@ApiResponse(code = 400, message = "Missing required field, wrong field range value or book already registered on system")
 	})
 	BookResponseDTO create(AuthenticatedUser authenticatedUser, BookRequestDTO bookRequestDTO);
+		
+	@ApiOperation(value = "Book find by id and user operation")
+	@ApiResponses(value = {
+			@ApiResponse(code = 200, message = "Success book found"),
+			@ApiResponse(code = 404, message = "Book not found error")
+	})
+	BookResponseDTO findByIdAndUser(AuthenticatedUser authenticatedUser, Long bookId);
 
 }

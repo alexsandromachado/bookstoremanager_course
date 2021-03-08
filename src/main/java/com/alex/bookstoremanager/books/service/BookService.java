@@ -9,6 +9,7 @@ import com.alex.bookstoremanager.books.dto.BookRequestDTO;
 import com.alex.bookstoremanager.books.dto.BookResponseDTO;
 import com.alex.bookstoremanager.books.entity.Book;
 import com.alex.bookstoremanager.books.exception.BookAlreadyExistsException;
+import com.alex.bookstoremanager.books.exception.BookNotFoundExeption;
 import com.alex.bookstoremanager.books.mapper.BookMapper;
 import com.alex.bookstoremanager.books.repository.BookRepository;
 import com.alex.bookstoremanager.publishers.entity.Publisher;
@@ -48,6 +49,14 @@ public class BookService {
 		
 		return bookMapper.toDTO(savedBook);
 		
+		
+	}
+	
+	public BookResponseDTO findByIdAndUser(AuthenticatedUser authenticatedUser, Long bookId) {
+		User foundAuthenticatedUser = userService.verifyAndGetUserIfExists(authenticatedUser.getUsername());
+		return bookRepository.findByIdAndUser(bookId, foundAuthenticatedUser)
+				.map(bookMapper::toDTO)
+				.orElseThrow(() -> new BookNotFoundExeption(bookId));
 		
 	}
 
