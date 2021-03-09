@@ -3,6 +3,7 @@ package com.alex.bookstoremanager.books.controller;
 import java.util.List;
 
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.web.bind.annotation.PathVariable;
 
 import com.alex.bookstoremanager.books.dto.BookRequestDTO;
 import com.alex.bookstoremanager.books.dto.BookResponseDTO;
@@ -35,5 +36,12 @@ public interface BookControllerDocs {
 			@ApiResponse(code = 200, message = "Book list found by authenticated user informed")
 	})
 	List<BookResponseDTO> findAllByUser(@AuthenticationPrincipal AuthenticatedUser authenticatedUser);
+	
+	@ApiOperation(value = "Book delete operation")
+	@ApiResponses(value = {
+			@ApiResponse(code = 204, message = "Book by user successfully deleted"),
+			@ApiResponse(code = 404, message = "Book not found error")
+	})
+	void deleteByIdAndUser(AuthenticatedUser authenticatedUser, Long bookId);
 
 }

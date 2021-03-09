@@ -1,5 +1,10 @@
 package com.alex.bookstoremanager.books.service;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
+import javax.transaction.Transactional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -17,9 +22,6 @@ import com.alex.bookstoremanager.publishers.service.PublisherService;
 import com.alex.bookstoremanager.users.dto.AuthenticatedUser;
 import com.alex.bookstoremanager.users.entity.User;
 import com.alex.bookstoremanager.users.service.UserService;
-import java.util.List;
-import java.util.stream.Collector;
-import java.util.stream.Collectors;
 
 import lombok.AllArgsConstructor;
 
@@ -69,6 +71,21 @@ public class BookService {
 		.stream()
 		.map(bookMapper::toDTO)
 		.collect(Collectors.toList());
+	}
+	
+	@Transactional
+	public void deleteByIdAndUser(AuthenticatedUser authenticatedUser, Long bookId) {
+		User foundAuthenticatedUser = userService.verifyAndGetUserIfExists(authenticatedUser.getUsername());
+			Book foundBookToDelete = verifyAndGetIfExists(bookId, foundAuthenticatedUser);
+		
+		bookRepository.deleteByIdAndUser(foundBookToDelete.getId(), foundAuthenticatedUser);
+		
+	}
+
+	private Book verifyAndGetIfExists(Long bookId, User foundAuthenticatedUser) {
+		return bookRepository.findByIdAndUser(bookId, foundAuthenticatedUser)
+               .orElseThrow(() -> new BookNotFoundExeption(bookId));
+		
 	}
 
 	private void verifyIfBookIsAlreadyRegistered(User foundUser, BookRequestDTO bookRequestDTO) {
