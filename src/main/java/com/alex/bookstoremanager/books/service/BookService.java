@@ -81,6 +81,22 @@ public class BookService {
 		bookRepository.deleteByIdAndUser(foundBookToDelete.getId(), foundAuthenticatedUser);
 		
 	}
+	
+	public BookResponseDTO updateByIdAndUser(AuthenticatedUser authenticatedUser, Long bookId, BookRequestDTO bookRequestDTO) {
+		User foundAuthenticatedUser = userService.verifyAndGetUserIfExists(authenticatedUser.getUsername());
+		Book foundBook = verifyAndGetIfExists(bookId, foundAuthenticatedUser);
+		Author foundAuthor = authorService.verifyAndGetIfExists(bookRequestDTO.getAuthorId());
+		Publisher foundPublisher = publisherService.verifyAndGetIfExists(bookRequestDTO.getPublisherId());
+		
+		Book bookToUpdate = bookMapper.toModel(bookRequestDTO);
+		bookToUpdate.setId(foundBook.getId());
+		bookToUpdate.setUser(foundAuthenticatedUser);
+		bookToUpdate.setCreatedDate(foundBook.getCreatedDate());
+		bookToUpdate.setAuthor(foundAuthor);
+		bookToUpdate.setPublisher(foundPublisher);
+		Book updatedBook = bookRepository.save(bookToUpdate);		
+		return bookMapper.toDTO(updatedBook);
+	}
 
 	private Book verifyAndGetIfExists(Long bookId, User foundAuthenticatedUser) {
 		return bookRepository.findByIdAndUser(bookId, foundAuthenticatedUser)
