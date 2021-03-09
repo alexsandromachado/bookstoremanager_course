@@ -2,8 +2,11 @@ package com.alex.bookstoremanager.books.controller;
 
 import java.util.List;
 
+import javax.validation.Valid;
+
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 
 import com.alex.bookstoremanager.books.dto.BookRequestDTO;
 import com.alex.bookstoremanager.books.dto.BookResponseDTO;
@@ -43,5 +46,13 @@ public interface BookControllerDocs {
 			@ApiResponse(code = 404, message = "Book not found error")
 	})
 	void deleteByIdAndUser(AuthenticatedUser authenticatedUser, Long bookId);
+	
+	@ApiOperation(value = "Book update operation")
+	@ApiResponses(value = {
+			@ApiResponse(code = 200, message = "Book by successfully updated"),
+			@ApiResponse(code = 404, message = "Book not found error"),
+			@ApiResponse(code = 400, message = "Missing required fields, wrong field range value or book  already registered on system")
+	})
+	public BookResponseDTO updateByIdAndUser(AuthenticatedUser authenticatedUser, Long bookId, BookRequestDTO bookRequestDTO);
 
 }
